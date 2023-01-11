@@ -94,7 +94,7 @@ x_test_temp = _encode(x_test)
 
 
 corr = x_train_temp.corr().abs()    # 相关系数绝对值
-corr.to_excel('output/相关系数矩阵.xlsx')
+corr.to_excel('output/语音相关系数矩阵.xlsx')
 
 k = 11
 col = corr.nlargest(k, '语音通话整体满意度')['语音通话整体满意度'].index   #Top10索引
@@ -104,7 +104,7 @@ corr = corr.round(2)    # 保留两位小数
 plt.subplots(figsize=(10, 10))
 plt.subplots_adjust(left=0.25, bottom=0.25)
 sns.heatmap(corr, annot=True, fmt="g", cmap='viridis')
-plt.savefig('output/Top10相关性热图.png', dpi=300)
+plt.savefig('output/语音Top10相关性热图.png', dpi=300)
 plt.show()
 
 x_train = train_data.drop(['语音通话整体满意度'], axis=1)
