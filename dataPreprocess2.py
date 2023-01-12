@@ -46,6 +46,9 @@ def train_encode(data):
     result = pd.DataFrame.copy(data, deep=True)
 
     result['终端品牌'] = result['终端品牌'].fillna(0)
+    result['上网质差次数'] = result['上网质差次数'].fillna(0)
+    result['脱网次数'] = result['脱网次数'].fillna(0)
+    result['微信质差次数'] = result['微信质差次数'].fillna(0)
     result = result.replace({
         '是否不限量套餐到达用户': {'是': 1, '否': 0},
         '性别': {'性别不详': 0, '女': 1, '男': 2},
@@ -114,8 +117,8 @@ def train_encode(data):
     })
 
 
-    pinpailist = ['realme', '锤子', '黑鲨', '联通', '联想', '魅族', '摩托罗拉', '诺基亚','欧博信','酷比','索尼爱立信','金立'
-                  '欧珀', '其他', '奇酷', '三星', '万普', '万普拉斯', '中兴', '中邮通信', '中国移动','TD',
+    pinpailist = ['realme', '锤子', '黑鲨', '联通', '联想', '魅族', '摩托罗拉', '诺基亚','欧博信','酷比','索尼爱立信','金立',
+                  '欧珀', '其他', '奇酷', '三星', '万普', '万普拉斯', '中兴', '中邮通信', '中国移动','TD','华硕',
                   '北京珠穆朗玛移动通信有限公司','飞利浦','捷开通讯科技','维图','甄十信息科技（上海）有限公司','中国电信']
     for x in pinpailist:
         result.loc[result['终端品牌'] == x, '终端品牌'] = '其它品牌'
@@ -137,6 +140,10 @@ def test_encode(data):
     result = pd.DataFrame.copy(data, deep=True)
 
     result['终端品牌'] = result['终端品牌'].fillna(0)
+    result['上网质差次数'] = result['上网质差次数'].fillna(0)
+    result['脱网次数'] = result['脱网次数'].fillna(0)
+    result['微信质差次数'] = result['微信质差次数'].fillna(0)
+
     result = result.replace({
         '是否不限量套餐到达用户': {'是': 1, '否': 0},
         '性别': {'性别不详': 0, '女': 1, '男': 2},
@@ -205,8 +212,8 @@ def test_encode(data):
     })
 
 
-    pinpailist = ['realme', '锤子', '黑鲨', '联通', '联想', '魅族', '摩托罗拉', '诺基亚','欧博信','酷比','索尼爱立信','金立'
-                  '欧珀', '其他', '奇酷', '三星', '万普', '万普拉斯', '中兴', '中邮通信', '中国移动','TD','天翼',
+    pinpailist = ['realme','RealMe','锤子', '黑鲨', '联通', '联想', '魅族', '摩托罗拉', '诺基亚','欧博信','酷比','索尼爱立信',
+                  '金立','欧珀', '其他', '奇酷', '三星', '万普', '万普拉斯', '中兴', '中邮通信', '中国移动','TD','天翼','华硕',
                   '北京珠穆朗玛移动通信有限公司','飞利浦','捷开通讯科技','维图','甄十信息科技（上海）有限公司','中国电信']
     for x in pinpailist:
         result.loc[result['终端品牌'] == x, '终端品牌'] = '其它品牌'
@@ -228,7 +235,6 @@ def test_encode(data):
 x_train_temp = train_encode(x_train)
 x_test_temp = test_encode(x_test)
 
-
 corr = x_train_temp.corr().abs()    # 相关系数绝对值
 corr.to_excel('output/上网相关系数矩阵.xlsx')
 
@@ -241,9 +247,7 @@ plt.subplots(figsize=(10, 10))
 plt.subplots_adjust(left=0.25, bottom=0.25)
 sns.heatmap(corr, annot=True, fmt="g", cmap='viridis')
 plt.savefig('output/上网Top10相关性热图.png', dpi=300)
-plt.show()
-
-x_train = train_data.drop(['手机上网整体满意度'], axis=1)
+# plt.show()
 
 x_train_temp.to_excel('output/上网训练集.xlsx',index=False)
 x_test_temp.to_excel('output/上网测试集.xlsx',index=False)
