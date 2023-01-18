@@ -30,7 +30,7 @@ test_data = pd.read_excel("output/语音测试集.xlsx",index_col='用户id')
 # x_train = train_data.drop(col, axis=1)  # 训练集数据去掉这几列
 
 corr = train_data.corr().abs()    # 相关系数绝对值
-k = 11
+k = 9
 col = corr.nlargest(k, '语音通话整体满意度')['语音通话整体满意度'].index   #Top10索引
 col = col.delete(0)
 
@@ -52,24 +52,24 @@ x_tr, x_va, y_tr, y_va = train_test_split(x_train, y_train, test_size = 0.2)
 # random_forest_reg = RandomForestRegressor()
 
 # 初始化分类模型
-# random_forest_cla = RandomForestClassifier()  # 随机森林
-model = XGBClassifier(learning_rate=0.001,
-                      max_depth=2,
-                      min_child_weight = 1,      # 叶子节点最小权重
-                      gamma=0.,                  # 惩罚项中叶子结点个数前的参数
-                      subsample=1,               # 所有样本建立决策树
-                      colsample_btree=1,         # 所有特征建立决策树
-                      scale_pos_weight=1,        # 解决样本个数不平衡的问题
-                      random_state=30,           # 随机数
-                      slient = 0,
-                      )
+random_forest_cla = RandomForestClassifier()  # 随机森林
+# model = XGBClassifier(learning_rate=0.001,
+#                       max_depth=2,
+#                       min_child_weight = 1,      # 叶子节点最小权重
+#                       gamma=0.,                  # 惩罚项中叶子结点个数前的参数
+#                       subsample=1,               # 所有样本建立决策树
+#                       colsample_btree=1,         # 所有特征建立决策树
+#                       scale_pos_weight=1,        # 解决样本个数不平衡的问题
+#                       random_state=30,           # 随机数
+#                       slient = 0,
+#                       )
 
 
 # 从里面搜索出让模型有最优表现的参数
 param_grid = {'n_estimators': [10,50,100,200,300]}
 
 # 定义网格搜索--从里面搜索出让模型有最优表现的参数
-grid_search_cv = GridSearchCV(estimator=model, param_grid=param_grid,
+grid_search_cv = GridSearchCV(estimator=random_forest_cla, param_grid=param_grid,
                               scoring=make_scorer(mean_squared_error), n_jobs=-1, pre_dispatch=1, cv=5, verbose=1)
 # 开始搜
 grid_search_cv.fit(x_tr, y_tr)
