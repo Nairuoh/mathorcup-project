@@ -6,7 +6,39 @@ plt.rcParams['font.sans-serif'] = 'Microsoft YaHei'
 plt.rcParams['axes.unicode_minus'] = False
 plt.style.use('ggplot')
 
-#语音通话整体满意度
+# 语音通话稳定性 高分
+# score1 = [516,345,189,240,162,260,312,284]  # 654
+# score2 = [477,258,168,199,122,201,251,210] # 786
+# score3= [773,435,205,338,176,271,362,301]  # 2800
+# score1 = [x / 654 for x in score1]
+# score2 = [x / 786 for x in score2]
+# score3 = [x / 2800 for x in score3]
+
+# 语音通话整体满意度 高分
+# score1 = [445,286,192,232,277,156,233,228]  # 567
+# score2 = [494,279,173,204,296,139,228,229] # 764
+# score3= [1050,619,294,456,493,236,421,456]  # 3157
+# score1 = [x / 567 for x in score1]
+# score2 = [x / 764 for x in score2]
+# score3 = [x / 3157 for x in score3]
+
+# 语音通话清晰度 高分
+# score1 = [503,340,194,262,173,256,308,270]  # 643
+# score2 = [518,293,187,206,136,239,290,233] # 805
+# score3= [926,528,260,403,213,368,410,395]  # 2981
+# score1 = [x / 643 for x in score1]
+# score2 = [x / 805 for x in score2]
+# score3 = [x / 2981 for x in score3]
+
+# 网络覆盖与信号强度 高分
+score1 = [496,332,180,140,244,298,257,251]  # 658
+score2 = [475,258,159,111,206,267,231,160] # 786
+score3= [736,409,200,169,285,343,286,308]  # 2701
+score1 = [x / 658 for x in score1]
+score2 = [x / 786 for x in score2]
+score3 = [x / 2701 for x in score3]
+
+#语音通话整体满意度 低分
 # score1 = [137,112,71,94,80,74,78,77]  # 145
 # score2 = [23,18,18,15,17,13,14,16]  # 26
 # score3= [48,41,24,36,33,26,36,33]  # 50
@@ -91,19 +123,19 @@ plt.style.use('ggplot')
 # score5 = [x / 454 for x in score5]
 
 #网络覆盖与信号强度——上网
-score1 = [300,210,348,246,289,281,293,242]  # 429
-score2 = [77,63,94,78,76,75,49,61]  # 117
-score3 = [151,122,187,140,161,158,113,137]  # 228
-score4 = [128,86,150,111,131,128,82,104]  # 198
-score5 = [281,168,317,236,271,260,156,208]  # 435
-score1 = [x / 429 for x in score1]
-score2 = [x / 117 for x in score2]
-score3 = [x / 228 for x in score3]
-score4 = [x / 198 for x in score4]
-score5 = [x / 435 for x in score5]
+# score1 = [300,210,348,246,289,281,293,242]  # 429
+# score2 = [77,63,94,78,76,75,49,61]  # 117
+# score3 = [151,122,187,140,161,158,113,137]  # 228
+# score4 = [128,86,150,111,131,128,82,104]  # 198
+# score5 = [281,168,317,236,271,260,156,208]  # 435
+# score1 = [x / 429 for x in score1]
+# score2 = [x / 117 for x in score2]
+# score3 = [x / 228 for x in score3]
+# score4 = [x / 198 for x in score4]
+# score5 = [x / 435 for x in score5]
 
-feature = ["居民小区","办公室","网络信号差/没有信号","显示有信号上不了网","上网过程中网络时断时续或时快时慢","手机上网速度慢","看视频卡顿",'打开网页或APP图片慢']
-# feature = ["是否遇到过网络问题","居民小区","办公室","手机没有信号","通话中有杂音、听不清、断断续续","有信号无法拨通","通话过程中突然中断","通话过程中一方听不见"]
+# feature = ["居民小区","办公室","网络信号差/没有信号","显示有信号上不了网","上网过程中网络时断时续或时快时慢","手机上网速度慢","看视频卡顿",'打开网页或APP图片慢']
+feature = ["是否遇到过网络问题","居民小区","办公室","手机没有信号","通话中有杂音、听不清、断断续续","有信号无法拨通","通话过程中突然中断","通话过程中一方听不见"]
 N = len(score1)
 
 #设置雷达图的角度，用于平分切开一个平面
@@ -116,25 +148,35 @@ feature=np.concatenate((feature,[feature[0]]))
 
 values_1 = np.concatenate((score2,[score2[0]]))
 values_2 = np.concatenate((score3,[score3[0]]))
-values_3 = np.concatenate((score4,[score4[0]]))
-values_4 = np.concatenate((score5,[score5[0]]))
+# values_3 = np.concatenate((score4,[score4[0]]))
+# values_4 = np.concatenate((score5,[score5[0]]))
+
 #绘图
 fig = plt.figure()
+
 #设置为极坐标格式
 ax = fig.add_subplot(111, polar=True)
-#绘制折线图
 
-ax.plot(angles,values,'o-',linewidth=2,label='1分')
-ax.plot(angles,values_1,'o-',linewidth=2,label='2分')
-ax.plot(angles,values_2,'o-',linewidth=2,label='3分')
-ax.plot(angles,values_3,'o-',linewidth=2,label='4分')
-ax.plot(angles,values_4,'o-',linewidth=2,label='5分')
+#绘制折线图
+ax.plot(angles,values,'o-',linewidth=2,label='8分')
+ax.plot(angles,values_1,'o-',linewidth=2,label='9分')
+ax.plot(angles,values_2,'o-',linewidth=2,label='10分')
+
+# ax.plot(angles,values,'o-',linewidth=2,label='1分')
+# ax.plot(angles,values_1,'o-',linewidth=2,label='2分')
+# ax.plot(angles,values_2,'o-',linewidth=2,label='3分')
+# ax.plot(angles,values_3,'o-',linewidth=2,label='4分')
+# ax.plot(angles,values_4,'o-',linewidth=2,label='5分')
+
 #添加每个特质的标签
 ax.set_thetagrids(angles*180/np.pi,feature)
+
 #设置极轴范围
 ax.set_ylim(0,1)
+
 #添加标题
-plt.title('网络覆盖与信号强度')
+plt.title('网络覆盖与信号强度-高分')
+
 #增加网格纸
 ax.grid(True)
 plt.legend()
