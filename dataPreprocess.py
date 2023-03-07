@@ -3,15 +3,15 @@ from pandas import DataFrame, Series
 import numpy as np  # 数值运算，线性代数
 import matplotlib.pyplot as plt  # 数据可视化绘图
 import seaborn as sns  # 数据可视化绘图
-plt.rcParams['figure.facecolor']=(1,1,1,1) # pycharm 绘图白底，看得清坐标
-plt.rcParams['font.family'] = 'SimHei'
+# plt.rcParams['figure.facecolor']=(1,1,1,1) # pycharm 绘图白底，看得清坐标
+# plt.rcParams['font.family'] = 'SimHei'
 
 import time
 from sklearn.preprocessing import OneHotEncoder,LabelEncoder,OrdinalEncoder, MinMaxScaler, MaxAbsScaler  # 特征编码
 
 
 train_data = pd.read_excel("dataset/附件1语音业务用户满意度数据.xlsx")
-test_data = pd.read_excel("dataset/附件3语音业务用户满意度预测数据.xlsx")
+# test_data = pd.read_excel("dataset/附件3语音业务用户满意度预测数据.xlsx")
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -27,7 +27,7 @@ x_train['是否投诉'] = x_train['家宽投诉'] + x_train['资费投诉']
 x_train = x_train.drop(['家宽投诉', '资费投诉'], axis=1)
 x_train['是否投诉'] = x_train['是否投诉'].mask(x_train['是否投诉'] > 0, 1)
 
-x_test = test_data.drop(['是否不限量套餐到达用户','性别','终端品牌类型','用户描述','用户描述.1'], axis=1)
+# x_test = test_data.drop(['是否不限量套餐到达用户','性别','终端品牌类型','用户描述','用户描述.1'], axis=1)
 
 
 # 用于记录本地时间
@@ -90,24 +90,25 @@ def _encode(data):
 
 # 对加载进来的数据集进行预处理
 x_train_temp = _encode(x_train)
-x_test_temp = _encode(x_test)
+# x_test_temp = _encode(x_test)
 
 
 corr = x_train_temp.corr().abs()    # 相关系数绝对值
-corr.to_excel('output/语音相关系数矩阵.xlsx')
+# corr.to_excel('output/语音相关系数矩阵.xlsx')
 
-k = 11
+k = 9
 col = corr.nlargest(k, '语音通话整体满意度')['语音通话整体满意度'].index   #Top10索引
-corr = corr.loc[col, col]   # Top10结果筛选
-corr = corr.round(2)    # 保留两位小数
+# corr = corr.loc[col, col]   # Top8结果筛选
+# corr = corr.round(2)    # 保留两位小数
 
-plt.subplots(figsize=(10, 10))
-plt.subplots_adjust(left=0.25, bottom=0.25)
-sns.heatmap(corr, annot=True, fmt="g", cmap='viridis')
-plt.savefig('output/语音Top10相关性热图.png', dpi=300)
-plt.show()
+# plt.subplots(figsize=(10, 10))
+# plt.subplots_adjust(left=0.25, bottom=0.25)
+# sns.heatmap(corr, annot=True, fmt="g", cmap='viridis')
+# plt.savefig('output/语音Top10相关性热图.png', dpi=300)
+# plt.show()
 
-x_train = train_data.drop(['语音通话整体满意度'], axis=1)
+# x_train = train_data.drop(['语音通话整体满意度'], axis=1)
 
-x_train_temp.to_excel('output/语音训练集.xlsx',index=False)
-x_test_temp.to_excel('output/语音测试集.xlsx',index=False)
+x_train_temp = x_train_temp.loc[:, col]
+x_train_temp.to_excel('output2/语音通话整体满意度.xlsx',index=False)
+# x_test_temp.to_excel('output/语音测试集.xlsx',index=False)
