@@ -12,7 +12,7 @@ warnings.filterwarnings("ignore")
 def get_local_time():
     return time.strftime("%m%d%H%M", time.localtime())
 
-def plot(data, i, whis=1) :
+def plot(data, i, whis=0.5) :
     plt.subplot(2, 5, i)
     plt.boxplot(data, vert=False, patch_artist=True, widths=0.5, whis=whis,
                 boxprops=dict(facecolor="green", color="red"),
@@ -21,9 +21,9 @@ def plot(data, i, whis=1) :
                 flierprops=dict(markersize=3.0, color="black", markeredgecolor="black"),
                 medianprops=dict(color="orange"),
                 meanprops=dict(color="brown"))
-    plt.title('语音'+title + str(i) + '分')
+    plt.title('手机上网'+title + str(i) + '分')
 
-def minMax(data, whis=1):
+def minMax(data, whis=0.5):
     _, bp = pd.DataFrame.boxplot(data, whis=whis, return_type='both')
 
     # outliers = [flier.get_ydata() for flier in bp["fliers"]]  # 离群点的值
@@ -42,7 +42,7 @@ def minMax(data, whis=1):
 
 # **********************************************//异常数据的查看
 title = '网络覆盖与信号强度'
-train_data_ = pd.read_excel('output/error/语音网络覆盖与信号强度.xlsx', index_col=0)
+train_data_ = pd.read_excel('output/error/手机上网网络覆盖与信号强度.xlsx', index_col=0)
 data = train_data_[[title, '特征加权和']]
 
 data_1 = data.loc[data[title].apply(lambda a:1 == a)]
